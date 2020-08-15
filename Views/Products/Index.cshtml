@@ -1,0 +1,43 @@
+﻿@model List<Products>
+
+@{
+    ViewBag.Title = "Product";
+}
+<h2>
+    @ViewBag.Title
+</h2>
+<p>
+    <a asp-action="Create" asp-controller="Products">Create New Product</a>
+</p>
+<div class="card-deck justify-content-center">
+    @foreach (var product in Model)
+    {
+        var photoPath = "~/img/" + (product.PhotoPathOfProduct ?? "images.jpg");
+
+        <div class="card border-dark mb-2" style="max-width: 30.5%; min-width:18rem;">
+            <div class="card-header text-center">
+                <h4>@product.ProductName</h4>
+            </div>
+            <div class="card-body text-dark">
+                <img class="card-img-top mb-2 imageThumbnail" src="@photoPath" alt="@product.ProductName's Image" asp-append-version="true">
+            </div>
+            <div class="card-footer border-dark text-center">
+                <a class="btn btn-primary m-1" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">View</a>
+                <a class="btn btn-warning m-1" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                @if (product.FreezeProduct == 2)
+                {
+                    <a class="btn btn-danger m-1" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id">Want to freeze?</a>
+                }
+                else
+                {
+                    <a class="btn btn-success m-1" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id">Want to Unfreeze?</a>
+                }
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}
